@@ -2,6 +2,7 @@ mod lexer;
 mod parser;
 mod tables;
 mod helper;
+mod codegen;
 
 use std::fs;
 
@@ -11,9 +12,8 @@ fn main() {
 
     let tokens = lexer::tokenize(&contents);
     let prog = parser::parse(tokens);
-    println!("{}", prog);
+    let code = codegen::codegen(prog);
 
-    // for token in tokens {
-    //     println!("{}", token);
-    // }
+    let out_file = "test.asm";
+    fs::write(out_file, code).expect("Could not write file");
 }
